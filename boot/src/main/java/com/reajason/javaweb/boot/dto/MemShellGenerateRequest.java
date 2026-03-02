@@ -31,6 +31,7 @@ public class MemShellGenerateRequest {
         private String shellClassBase64;
         private String encryptor;
         private String implementationClass;
+        private String behinderProtocol;
     }
 
     public ShellToolConfig parseShellToolConfig() {
@@ -47,6 +48,7 @@ public class MemShellGenerateRequest {
                     .pass(shellToolConfig.getBehinderPass())
                     .headerName(shellToolConfig.getHeaderName())
                     .headerValue(shellToolConfig.getHeaderValue())
+                    .protocol(shellToolConfig.getBehinderProtocol())
                     .build();
             case Command -> CommandConfig.builder()
                     .shellClassName(shellToolConfig.getShellClassName())

@@ -21,6 +21,8 @@ public class BehinderConfig extends ShellToolConfig {
     private String headerName = "User-Agent";
     @Builder.Default
     private String headerValue = CommonUtil.getRandomString(8);
+    @Builder.Default
+    private String protocol = "aes";
 
     public static abstract class BehinderConfigBuilder<C extends BehinderConfig, B extends BehinderConfig.BehinderConfigBuilder<C, B>>
             extends ShellToolConfig.ShellToolConfigBuilder<C, B> {
@@ -44,6 +46,14 @@ public class BehinderConfig extends ShellToolConfig {
             if (StringUtils.isNotBlank(headerValue)) {
                 this.headerValue$value = headerValue;
                 headerValue$set = true;
+            }
+            return self();
+        }
+
+        public B protocol(final String protocol) {
+            if (StringUtils.isNotBlank(protocol)) {
+                this.protocol$value = protocol;
+                protocol$set = true;
             }
             return self();
         }

@@ -23,6 +23,7 @@
   "shellToolConfig.behinder": "冰蝎",
   "shellToolConfig.behinder.header": "自定义请求头",
   "shellToolConfig.behinder.pass": "连接密码",
+  "shellToolConfig.behinder.protocol": "通信协议",
   "shellToolConfig.behinderDefaultEncryptType": "默认",
   "shellToolConfig.behinderEncryptType": "加密类型",
   "shellToolConfig.behinderScriptType": "脚本类型",

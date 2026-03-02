@@ -6,6 +6,7 @@
   "cancel": "Cancel",
   "copyLabelSuccess": "Copy {{label}} successfully",
   "copySuccess": "Copy successfully",
+  "default": "Default",
   "debug": "Debug Mode",
   "debug.description": "When enabled, injector prints injection info to logs and memshell prints exception stack traces for troubleshooting. Recommended for local testing environments",
   "download": "Downlaod",

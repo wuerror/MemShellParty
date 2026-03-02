@@ -23,6 +23,7 @@
   "shellToolConfig.behinder": "Behinder",
   "shellToolConfig.behinder.header": "Custom Header",
   "shellToolConfig.behinder.pass": "Pass",
+  "shellToolConfig.behinder.protocol": "Protocol",
   "shellToolConfig.behinderDefaultEncryptType": "Default",
   "shellToolConfig.behinderEncryptType": "Encrypt Type",
   "shellToolConfig.behinderScriptType": "Script Type",

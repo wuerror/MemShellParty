@@ -18,6 +18,7 @@ export const memShellFormSchema = yup.object({
   godzillaPass: yup.string().optional(),
   godzillaKey: yup.string().optional(),
   behinderPass: yup.string().optional(),
+  behinderProtocol: yup.string().optional(),
   antSwordPass: yup.string().optional(),
   commandParamName: yup.string().optional(),
   commandTemplate: yup.string().optional(),

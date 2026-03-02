@@ -6,6 +6,7 @@
   "cancel": "取消",
   "copyLabelSuccess": "复制 {{label}} 成功",
   "copySuccess": "复制成功",
+  "default": "默认",
   "debug": "调试模式",
   "debug.description": "开启后注入器会打印注入信息到业务日志，内存马会打印异常堆栈信息，便于排查问题。本地测试环境推荐开启",
   "download": "下载",

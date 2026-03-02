@@ -7,6 +7,8 @@ import { TabsContent } from "@/components/ui/tabs";
 import type { MemShellFormSchema } from "@/types/schema";
 import { OptionalClassFormField } from "./classname-field";
 import { ShellTypeFormField } from "./shelltype-field";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 
 export function BehinderTabContent({
   form,
@@ -21,6 +23,31 @@ export function BehinderTabContent({
       <Card>
         <CardContent className="space-y-2 mt-4">
           <ShellTypeFormField form={form} shellTypes={shellTypes} />
+          <Controller
+            control={form.control}
+            name="behinderProtocol"
+            render={({ field }) => (
+              <Field className="gap-2">
+                <FieldLabel>
+                  {t("shellToolConfig.behinder.protocol")}
+                </FieldLabel>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  className="flex items-center gap-4"
+                >
+                  <div className="flex items-center gap-1">
+                    <RadioGroupItem value="aes" id="aes" />
+                    <Label htmlFor="aes">AES ({t("common:default")})</Label>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <RadioGroupItem value="custom" id="custom" />
+                    <Label htmlFor="custom">Custom (Gzip+Base64)</Label>
+                  </div>
+                </RadioGroup>
+              </Field>
+            )}
+          />
           <Controller
             control={form.control}
             name="behinderPass"

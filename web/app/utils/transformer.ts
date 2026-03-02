@@ -26,6 +26,7 @@ export function transformToPostData(formValue: MemShellFormSchema) {
     commandParamName: formValue.commandParamName,
     commandTemplate: formValue.commandTemplate,
     behinderPass: formValue.behinderPass,
+    behinderProtocol: formValue.behinderProtocol,
     antSwordPass: formValue.antSwordPass,
     headerName: formValue.headerName,
     headerValue: formValue.headerValue,

@@ -44,6 +44,7 @@ const defaultValues: MemShellFormSchema = {
   godzillaKey: "",
   commandParamName: "",
   behinderPass: "",
+  behinderProtocol: "aes",
   antSwordPass: "",
   headerName: "User-Agent",
   headerValue: "",
