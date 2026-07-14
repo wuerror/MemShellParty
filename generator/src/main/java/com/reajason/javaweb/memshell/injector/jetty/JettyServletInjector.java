@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.*;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
@@ -109,6 +110,20 @@ public class JettyServletInjector {
                 }
             } catch (Exception ignored) {
             }
+
+            // Winstone-Jetty: Launcher -> HostGroup -> HostConfigs -> webapps
+            try {
+                Object target = getFieldValue(thread, "target");
+                if (target != null && target.getClass().getName().contains("winstone.Launcher")) {
+                    Map hostConfigs = (Map) getFieldValue(getFieldValue(target, "hostGroup"), "hostConfigs");
+                    for (Object o : hostConfigs.values()) {
+                        Map apps = (Map) getFieldValue(o, "webapps");
+                        contexts.addAll(apps.values());
+                    }
+                }
+            } catch (Throwable ignored) {
+            }
+
         }
         return contexts;
     }

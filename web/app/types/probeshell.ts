@@ -1,12 +1,6 @@
 export type ProbeMethod = "ResponseBody" | "DNSLog" | "Sleep";
 
-export type ProbeContent =
-  | "BasicInfo"
-  | "Server"
-  | "OS"
-  | "JDK"
-  | "Bytecode"
-  | "Command";
+export type ProbeContent = "BasicInfo" | "Server" | "OS" | "JDK" | "Bytecode" | "Command";
 
 export interface ProbeConfig {
   probeMethod: string;
@@ -61,7 +55,6 @@ export interface PayloadFormValues {
 export interface ProbeShellGenerateResponse {
   probeShellResult: ProbeShellResult;
   packResult?: string;
-  allPackResults?: Map<string, string>;
 }
 
 export interface ProbeShellResult {

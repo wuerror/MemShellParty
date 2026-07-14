@@ -8,6 +8,86 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.8.0](https://github.com/ReaJason/MemShellParty/releases/tag/v2.8.0) - 2026-06-13
+
+### Added
+
+1. 新增对 [Winstone-Jetty](https://github.com/jenkinsci/winstone)（Jenkins 2.491.1）和 [Geronimo-Jetty](https://github.com/apache/geronim)（Jetty 7.1） 上下文采集注入（Thanks @su18）
+2. 新增 Godzilla DubboService 内存马注入，默认使用 XOR_Base64（仅支持特战版，Thanks @ReaJason）
+3. (UI)支持选取具体的打包方式
+4. (UI)当选择 SpringGzipJDK17 的打包方式时自动将注入器类名为 org.springframework.expression. 开头的随机生成类名
+
+### Fixed
+
+1. 修复 Jetty 7.1.6 回显马找不到 request/response 导致回显失败
+
+### Changed
+
+1. boot 使用 SpringBoot 4.1.0 版本 + Dockerfile 中默认 jre21
+2. 依赖更新
+
+**Full Changelog:** [v2.7.2...v2.8.0](https://github.com/ReaJason/MemShellParty/compare/v2.7.2...v2.8.0)
+
+## [v2.7.2](https://github.com/ReaJason/MemShellParty/releases/tag/v2.7.2) - 2026-05-24
+
+### Fixed
+
+1. 修复 Web 回显马生成界面，调试模式、绕过模块限制等开关不可用（Thanks @xcxmiku）
+
+**Full Changelog:** [v2.7.1...v2.7.2](https://github.com/ReaJason/MemShellParty/compare/v2.7.1...v2.7.2)
+
+## [v2.7.1](https://github.com/ReaJason/MemShellParty/releases/tag/v2.7.1) - 2026-05-24
+
+### Fixed
+
+1. 修复 SpELSpringGzipJDK17 高版本 org.springframework.util.Base64Utils 类被删除导致无法使用
+2. 修复 TongWeb 7.0.4.9、BES 11.0.0 回显失效
+3. 修复命名错误 struct2 -> struts2
+
+### Changed
+
+1. 依赖更新、文档更新
+
+**Full Changelog:** [v2.7.0...v2.7.1](https://github.com/ReaJason/MemShellParty/compare/v2.7.0...v2.7.1)
+
+## [v2.7.0](https://github.com/ReaJason/MemShellParty/releases/tag/v2.7.0) - 2026-04-26
+
+### Added
+
+1. 添加 Alibaba Dubbo 和 Apache Dubbo Service 内存马，专门针对 Dubbo Provider 的场景（#32 By @ReaJason）
+2. 为 Attacher 添加默认列举 Java 进程和 `all` 参数注入所有 Java 进程的代码（与 JMG Agent.jar 命令一致）
+    ```bash
+    java -jar agent.jar # 列举所有 Java 进程
+    java -jar agent.jar <pid> # 注入指定 PID Java 进程
+    java -jar agent.jar all # 注入所有 Java 进程
+    ```
+3. 添加 Command Base64 Encryptor，方便测试 Base64 流量特征攻击
+
+### Fixed
+
+1. 修复测试用例 WAS7(IBM JDK6) 下需要添加 `-Xshareclasses:none` JVM 参数才能注入成功，否则报错 UnmodifiableClassException
+
+### Changed
+
+1. 添加 tomcat-embed-core 依赖，Spring Boot 4 应用依赖时能直接使用 Tomcat 容器进行部署（Spring Boot 4 不再支持 Undertow）
+2. 前端依赖更新，将格式化工具 biomejs 改为 oxc
+
+**Full Changelog:** [v2.6.1...v2.7.0](https://github.com/ReaJason/MemShellParty/compare/v2.6.1...v2.7.0)
+
+## [v2.6.1](https://github.com/ReaJason/MemShellParty/releases/tag/v2.6.1) - 2026-03-30
+
+### Fixed
+
+1. (UI)修复 SpringWebMVC 生成 Controller 点击生成按钮无效（#140 Thanks @ekkoo-z By @ReaJason）
+2. 修复 WebSocket Proxy OOM（#127 Thanks @xiaoxiaoranxxx）
+
+### Changed
+
+1. 依赖更新
+2. web docs 更新，支持复制 markdown 以及点击跳转 GitHub 等界面
+
+**Full Changelog:** [v2.6.0...v2.6.1](https://github.com/ReaJason/MemShellParty/compare/v2.6.0...v2.6.1)
+
 ## [v2.6.0](https://github.com/ReaJason/MemShellParty/releases/tag/v2.6.0) - 2026-02-08
 
 ### Added
@@ -18,7 +98,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-1. (UI)修复生成按钮防连点失效（By ReaJason）
+1. (UI)修复生成按钮防连点失效（By @ReaJason）
 2. 修复 ServletRenameVisitorWrapper 可能会导致部分 ByteBuddy Advisor 方法选中失效
 3. 去除 JSP 脚本中 `Class<?>` 泛型，改为 `Class`，修复低版本 Servlet 容器解析失败
 
@@ -103,7 +183,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 1. 支持 Suo5 V2 版本内存马生成（[#118](https://github.com/ReaJason/MemShellParty/issues/118) By @ReaJason Thanks @zema1）
-2. 支持 Struct2 Action 内存马与回显马生成
+2. 支持 Struts2 Action 内存马与回显马生成
 
 ### Changed
 
@@ -173,13 +253,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 3. 添加 JXPathSpringGzipPacker、JXPathSpringGzipPackerJDK17 打包方式（GeoServer 漏洞注入）
 4. 添加 Base64URLEncoded 打包方式（配合回显马进行小马拉大马测试）
 5. 支持回显马在进行自定义字节码执行时去除 Java 魔数流量特征
- ```http
+
+```http
 /path/code?payload=yv66vgAAADIBVQEAJ29yZy9hcGFj...
-   ```
+```
+
 改为只需要如下方式
+
 ```http
 /path/code?payload=IBVQEAJ29yZy9hcGFj...
-   ```
+```
 
 ### Fixed
 
@@ -260,7 +343,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 简化 Shell base64 方法代码
 - Gradle 更新至 8.14.2
 - 参考 [General Gradle Best Practices](https://docs.gradle.org/current/userguide/best_practices_general.html)，将构建脚本改为
-Kotlin DSL
+  Kotlin DSL
 
 **Full Changelog:** [v1.9.0...v1.10.0](https://github.com/ReaJason/MemShellParty/compare/v1.9.0...v1.10.0)
 
@@ -270,7 +353,7 @@ Kotlin DSL
 
 - 支持 TongWeb8 内存马生成 by @ReaJason
 - 通过 context 获取 webAppClassLoader，不再依赖 Thread.currentThread().getContextClassLoader()
-为请求线程，参考：[任意类加载环境下注入内存马](https://reajason.eu.org/writing/whichclassloaderforshell/)
+  为请求线程，参考：[任意类加载环境下注入内存马](https://reajason.eu.org/writing/whichclassloaderforshell/)
 - 全面支持使用 ASM 生成 Agent（仅需 92.5 KB），并且可选 JDKAttacher 与 JREAttacher
 - 支持命令执行自定义实现类，RuntimeExec or ForkAndExec
 

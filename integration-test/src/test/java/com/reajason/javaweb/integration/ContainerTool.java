@@ -16,7 +16,7 @@ public class ContainerTool {
     public static final MountableFile warExpressionFile = MountableFile.forHostPath(Path.of("..", "vul", "vul-webapp-expression", "build", "libs", "vul-webapp-expression.war").toAbsolutePath());
     public static final MountableFile warDeserializeFile = MountableFile.forHostPath(Path.of("..", "vul", "vul-webapp-deserialize", "build", "libs", "vul-webapp-deserialize.war").toAbsolutePath());
     public static final MountableFile warFile = MountableFile.forHostPath(Path.of("..", "vul", "vul-webapp", "build", "libs", "vul-webapp.war").toAbsolutePath(), 0666);
-    public static final MountableFile struct2WarFile = MountableFile.forHostPath(Path.of("..", "vul", "vul-struct2", "build", "libs", "vul-struct2.war").toAbsolutePath());
+    public static final MountableFile struts2WarFile = MountableFile.forHostPath(Path.of("..", "vul", "vul-struts2", "build", "libs", "vul-struts2.war").toAbsolutePath());
     public static final MountableFile springBoot2WarFile = MountableFile.forHostPath(Path.of("..", "vul", "vul-springboot2", "build", "libs", "vul-springboot2.war").toAbsolutePath());
 
     public static final MountableFile springBoot1JarFile = MountableFile.forHostPath(Path.of("..", "vul", "vul-springboot1", "build", "libs", "vul-springboot1.jar").toAbsolutePath());
@@ -25,6 +25,7 @@ public class ContainerTool {
     public static final MountableFile springBoot2UndertowJarFile = MountableFile.forHostPath(Path.of("..", "vul", "vul-springboot2-undertow", "build", "libs", "vul-springboot2-undertow.jar").toAbsolutePath());
     public static final MountableFile springBoot2WebfluxJarFile = MountableFile.forHostPath(Path.of("..", "vul", "vul-springboot2-webflux", "build", "libs", "vul-springboot2-webflux.jar").toAbsolutePath());
     public static final MountableFile springBoot3JarFile = MountableFile.forHostPath(Path.of("..", "vul", "vul-springboot3", "build", "libs", "vul-springboot3.jar").toAbsolutePath());
+    public static final MountableFile springBoot359JarFile = MountableFile.forHostPath(Path.of("..", "vul", "vul-springboot359", "build", "libs", "vul-springboot359.jar").toAbsolutePath());
     public static final MountableFile springBoot3WebfluxJarFile = MountableFile.forHostPath(Path.of("..", "vul", "vul-springboot3-webflux", "build", "libs", "vul-springboot3-webflux.jar").toAbsolutePath());
 
     public static final Path neoGeorgDockerfile = Path.of("..", "assets", "neoreg", "Dockerfile").toAbsolutePath();

@@ -1,44 +1,60 @@
-import browserCollections from "fumadocs-mdx:collections/browser";
+import type { Route } from "./+types/page";
+
+import browserCollections from "collections/browser";
 import { useFumadocsLoader } from "fumadocs-core/source/client";
-import { ImageZoom } from "fumadocs-ui/components/image-zoom";
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import {
   DocsBody,
   DocsDescription,
   DocsPage,
   DocsTitle,
+  MarkdownCopyButton,
+  ViewOptionsPopover,
 } from "fumadocs-ui/layouts/docs/page";
-import defaultMdxComponents from "fumadocs-ui/mdx";
+
+import { useMDXComponents } from "@/components/mdx";
 import { baseOptions } from "@/lib/layout.shared";
-import { source } from "@/lib/source";
-import type { Route } from "./+types/page";
+import { getPageMarkdownUrl, source } from "@/lib/source";
 
 export async function loader({ params }: Route.LoaderArgs) {
-  const slugs = params["*"].split("/").filter((v) => v.length > 0);
+  const slugs = params["*"].split("/").filter((v: string | any[]) => v.length > 0);
   const page = source.getPage(slugs);
   if (!page) throw new Response("Not found", { status: 404 });
 
   return {
     path: page.path,
-    pageTree: await source.serializePageTree(source.pageTree),
+    markdownUrl: getPageMarkdownUrl(page).url,
+    pageTree: await source.serializePageTree(source.getPageTree()),
   };
 }
 
 const clientLoader = browserCollections.docs.createClientLoader({
-  component({ toc, default: Mdx, frontmatter }) {
+  component(
+    { toc, frontmatter, default: Mdx },
+    // you can define props for the component
+    {
+      markdownUrl,
+      path,
+    }: {
+      markdownUrl: string;
+      path: string;
+    },
+  ) {
     return (
-      <DocsPage toc={toc}>
+      <DocsPage toc={toc} tableOfContent={{ style: "clerk" }}>
         <title>{frontmatter.title}</title>
         <meta name="description" content={frontmatter.description} />
         <DocsTitle>{frontmatter.title}</DocsTitle>
         <DocsDescription>{frontmatter.description}</DocsDescription>
-        <DocsBody>
-          <Mdx
-            components={{
-              ...defaultMdxComponents,
-              img: (props) => <ImageZoom {...(props as any)} />,
-            }}
+        <div className="-mt-4 flex flex-row items-center gap-2 border-b pb-6">
+          <MarkdownCopyButton markdownUrl={markdownUrl} />
+          <ViewOptionsPopover
+            markdownUrl={markdownUrl}
+            githubUrl={`https://github.com/ReaJason/MemShellParty/blob/master/web/content/docs/${path}`}
           />
+        </div>
+        <DocsBody>
+          <Mdx components={useMDXComponents()} />
         </DocsBody>
       </DocsPage>
     );
@@ -46,11 +62,14 @@ const clientLoader = browserCollections.docs.createClientLoader({
 });
 
 export default function Page({ loaderData }: Route.ComponentProps) {
-  const Content = clientLoader.getComponent(loaderData.path);
-  const { pageTree } = useFumadocsLoader(loaderData);
+  const { pageTree, path, markdownUrl } = useFumadocsLoader(loaderData);
+
   return (
     <DocsLayout {...baseOptions()} tree={pageTree}>
-      <Content />
+      {clientLoader.useContent(loaderData.path, {
+        markdownUrl,
+        path,
+      })}
     </DocsLayout>
   );
 }

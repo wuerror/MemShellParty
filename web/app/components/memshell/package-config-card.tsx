@@ -1,13 +1,14 @@
+import type { PackerConfig, PackerOption } from "@/types/memshell";
+import type { MemShellFormSchema } from "@/types/schema";
+
 import { PackageIcon } from "lucide-react";
 import { useMemo } from "react";
 import { Controller, type UseFormReturn, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+
+import PackerSelector from "@/components/packer-selector";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FieldLabel, FieldSet } from "@/components/ui/field";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Spinner } from "@/components/ui/spinner";
-import type { PackerConfig } from "@/types/memshell";
-import type { MemShellFormSchema } from "@/types/schema";
 
 export default function PackageConfigCard({
   packerConfig,
@@ -28,8 +29,8 @@ export default function PackageConfigCard({
     name: "server",
   });
 
-  const options = useMemo(() => {
-    const filteredOptions = (packerConfig ?? []).filter((name) => {
+  const parents = useMemo<PackerOption[]>(() => {
+    return (packerConfig ?? []).filter(({ name }) => {
       if (!shellType || shellType === " ") {
         return true;
       }
@@ -41,12 +42,7 @@ export default function PackageConfigCard({
       }
       return !name.startsWith("Agent") && !name.toLowerCase().startsWith("xxl");
     });
-    form.setValue("packingMethod", filteredOptions[0]);
-    return filteredOptions.map((name) => ({
-      name: t(name),
-      value: name,
-    }));
-  }, [packerConfig, shellType, server, t, form]);
+  }, [packerConfig, shellType, server]);
 
   return (
     <Card className="w-full">
@@ -57,38 +53,18 @@ export default function PackageConfigCard({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        {options.length > 0 ? (
+        {parents.length > 0 ? (
           <Controller
             control={form.control}
             name="packingMethod"
             render={({ field }) => (
-              <FieldSet>
-                <FieldLabel>{t("packerMethod")}</FieldLabel>
-                <RadioGroup
-                  name={field.name}
-                  value={field.value}
-                  defaultValue={options[0].value}
-                  onValueChange={field.onChange}
-                  className="grid grid-cols-2 md:grid-cols-3"
-                >
-                  {options.map(({ name, value }) => (
-                    <div key={value} className="flex items-center space-x-3">
-                      <RadioGroupItem value={value} id={value} />
-                      <FieldLabel className="text-xs" htmlFor={value}>
-                        {name}
-                      </FieldLabel>
-                    </div>
-                  ))}
-                </RadioGroup>
-              </FieldSet>
+              <PackerSelector parents={parents} value={field.value} onChange={field.onChange} />
             )}
           />
         ) : (
-          <div className="flex items-center justify-center p-4 gap-4 h-50">
+          <div className="flex h-50 items-center justify-center gap-4 p-4">
             <Spinner />
-            <span className="text-sm text-muted-foreground">
-              {t("loading")}
-            </span>
+            <span className="text-sm text-muted-foreground">{t("loading")}</span>
           </div>
         )}
       </CardContent>

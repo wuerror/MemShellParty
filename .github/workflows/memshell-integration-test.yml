@@ -9,6 +9,7 @@ on:
       - './github/workflows/memshell-integration-test.yml'
       - '**/memshell/**'
       - '**/packer/**'
+      - '**/dubbo/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
@@ -43,36 +44,47 @@ jobs:
           - middleware: "weblogic"
             depend_tasks: ":vul:vul-webapp:war"
           - middleware: "springwebmvc"
-            depend_tasks: ":vul:vul-springboot1:bootJar :vul:vul-springboot2:bootJar :vul:vul-springboot2-jetty:bootJar :vul:vul-springboot2-undertow:bootJar :vul:vul-springboot2:bootWar :vul:vul-springboot3:bootJar"
+            depend_tasks: ":vul:vul-springboot1:bootJar :vul:vul-springboot2:bootJar :vul:vul-springboot2-jetty:bootJar :vul:vul-springboot2-undertow:bootJar :vul:vul-springboot2:bootWar :vul:vul-springboot3:bootJar :vul:vul-springboot359:bootJar"
           - middleware: "springwebflux"
             depend_tasks: ":vul:vul-springboot2-webflux:bootJar :vul:vul-springboot3-webflux:bootJar"
           - middleware: "xxljob"
             depend_tasks: ""
-          - middleware: "struct2"
-            depend_tasks: ":vul:vul-struct2:war"
-    runs-on: ubuntu-latest
+          - middleware: "struts2"
+            depend_tasks: ":vul:vul-struts2:war"
+          - middleware: "jenkins"
+            depend_tasks: ""
+          - middleware: "geronimo"
+            depend_tasks: ":vul:vul-webapp:war"
+          - middleware: "dubbo"
+            depend_tasks: ":vul:vul-dubbo:dubboProviderFatJars :tools:command:dubboClientClasspath"
+    runs-on: ubuntu-22.04
     name: ${{ matrix.cases.middleware }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: 17
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
 
       - name: Prepare for Integration Test
         run: ./gradlew ${{ matrix.cases.depend_tasks }}
 
       - name: Integration Test with gradle
+        if: matrix.cases.middleware != 'dubbo'
         run: ./gradlew :integration-test:test --tests '*.memshell.${{ matrix.cases.middleware }}.*' --info
+
+      - name: Dubbo Integration Test with gradle
+        if: matrix.cases.middleware == 'dubbo'
+        run: ./gradlew :integration-test:dubboContainerTest --info
 
       - name: Export Integration Test Summary
         uses: mikepenz/action-junit-report@v5
         if: success() || failure()
         with:
-          report_paths: '**/build/test-results/test/TEST-*.xml'
+          report_paths: '**/build/test-results/*/TEST-*.xml'

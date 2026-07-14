@@ -76,6 +76,7 @@ export interface NeoreGeorgShellToolConfig {
 
 export interface InjectorConfig {
   injectorClassName?: string;
+  injectorHelperClassName?: string;
   classInheritance?: string;
   urlPattern?: string;
   staticInitialize?: boolean;
@@ -97,12 +98,16 @@ export interface MainConfig {
   };
 }
 
-export type PackerConfig = Array<string>;
+export interface PackerOption {
+  name: string;
+  children: string[];
+}
+
+export type PackerConfig = Array<PackerOption>;
 
 export interface MemShellGenerateResponse {
   memShellResult: MemShellResult;
   packResult?: string;
-  allPackResults?: Map<string, string>;
 }
 
 export interface APIErrorResponse {
